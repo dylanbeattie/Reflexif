@@ -1,0 +1,22 @@
+﻿@model System.Collections.Generic.IEnumerable<string>
+
+@{
+    ViewBag.Title = "Reflexif: EXIF tags and watermarking";
+}
+
+<form method="post" action="@Url.Action("Upload", "Home")" enctype="multipart/form-data">
+    <label for="file">File:</label>
+    <input type="file" name="file" id="file" />
+    <label for="title-input">Title:</label>
+    <input type="text" id="title-input" name="title" value="Photo Title" placeholder="title" />
+    <label for="copyright-input">Copyright:</label>
+    <input type="text" id="copyright-input" name="copyright" value="Dylan Beattie-Bob" placeholder="copyright holder" />
+    <input type="submit" value="Go!" />
+</form>
+
+<h2>Images</h2>
+<ul>
+    @foreach (var image in Model) {
+        <li><a href="#">@image</a></li>
+    }
+</ul>
