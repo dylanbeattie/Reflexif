@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Reflexif
+namespace Reflexif.WebDemo
 {
     public class MvcApplication : System.Web.HttpApplication
     {
