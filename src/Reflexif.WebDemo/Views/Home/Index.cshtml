@@ -17,6 +17,6 @@
 <h2>Images</h2>
 <ul>
     @foreach (var image in Model) {
-        <li><a href="#">@image</a></li>
+        <li><a href="@Url.Action("Details", new { filename = image })">@image</a></li>
     }
 </ul>

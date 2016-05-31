@@ -1,0 +1,13 @@
+﻿@model System.Collections.Generic.Dictionary<string, string>
+
+@{
+    ViewBag.Title = "title";
+}
+
+<h2>title</h2>
+<dl>
+    @foreach (var key in Model.Keys) {
+        <dt>@key</dt>
+        <dd>@Html.Raw(Model[key])</dd>
+    }
+</dl>
