@@ -1,0 +1,17 @@
+﻿div#dropzone {
+    width: 256px;
+    height: 256px;
+    border: 1px dashed #999;
+    text-align: center;
+    border-radius: 4px;
+    display: table-cell;
+    vertical-align: middle;
+}
+div#dropzone p, div#dropzone img  {
+    display: inline-block;
+}
+
+progress#uploadprogress { width: 256px;height: 16px; margin-top: 8px; }
+div#dropzone.hover {
+    background-color: #999;
+}

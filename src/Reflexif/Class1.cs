@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 // ReSharper disable InconsistentNaming
@@ -81,6 +82,29 @@ namespace Reflexif {
     }
 
     public static class BitmapExtensions {
+        private static Encoding GetEncoding(ExifTags tag) {
+            switch (tag) {
+                case ExifTags.XPAuthor:
+                case ExifTags.XPTitle:
+                case ExifTags.XPKeywords:
+                case ExifTags.XPComment:
+                case ExifTags.XPSubject:
+                    return (Encoding.Unicode);
+                default:
+                    return (Encoding.UTF8);
+            }
+        }
+        public static string ReadExifTag(this Bitmap bitmap, params ExifTags[] tags) {
+            foreach (var tag in tags) {
+                try {
+                    var encoding = GetEncoding(tag);
+                    return encoding.GetString(bitmap.GetPropertyItem((int)tag).Value).TrimEnd('\0');
+                } catch (Exception) {
+                    // ignored
+                }
+            }
+            return (null);
+        }
         public static void SetExifTag(this Bitmap bitmap, ExifTags tag, string value) {
             var t = typeof(PropertyItem);
             var types = new Type[0];
@@ -89,7 +113,8 @@ namespace Reflexif {
             var pi = (PropertyItem)ci.Invoke(values);
             pi.Id = (int)tag;
             pi.Type = 2;
-            var bytes = Encoding.UTF8.GetBytes(value + "\0");
+            var encoding = GetEncoding(tag);
+            var bytes = encoding.GetBytes(value + "\0");
             pi.Value = bytes;
             pi.Len = bytes.Length - 1;
             bitmap.SetPropertyItem(pi);
