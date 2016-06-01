@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Reflexif: EXIF tags and watermarking";
 }
+
 <div class="row">
     <h3>ReflEXIF: Image Upload and EXIF Data Demo</h3>
     <hr />
@@ -50,18 +51,35 @@
 <div class="row">
     <hr />
 </div>
-<h2>Images</h2>
-<ul>
-    @foreach (var image in Model) {
-        <li>
-            @image
-            | <a href="@Url.Action("Render", new { filename = image, width = 100, height = 100 })">100x100</a>
-            | <a href="@Url.Action("Render", new { filename = image, width = 500, height = 500 })">500x500</a>
-            | <a href="@Url.Action("Render", new { filename = image, width = 800, height = 800 })">800x800</a>
+<div class="row">
+    <h4>Images</h4>
+    <ul>
+        @foreach (var image in Model) {
+            <li>
+                @image
+                | <a href="@Url.Action("Render", new { filename = image, width = 100, height = 100 })">100x100</a>
+                | <a href="@Url.Action("Render", new { filename = image, width = 500, height = 500 })">500x500</a>
+                | <a href="@Url.Action("Render", new { filename = image, width = 800, height = 800 })">800x800</a>
 
-        </li>
+            </li>
+        }
+    </ul>
+    @if (Model.Any()) {
+        <a href="@Url.Action("CleanUp", "Home")" class="btn btn-danger">delete uploaded files</a>
+    } else {
+        <p>The image folder is empty! Try uploading something.</p>
     }
-</ul>
+</div>
+<div class="row">
+    <hr />
+    <h4>Sources & References</h4>
+    <ul>
+        <li><a href="http://www.github.com/dylanbeattie/reflexif">dylanbeattie/reflexif</a> on GitHub</li>
+        <li><a href="http://130.15.24.88/exiftool/forum/index.php?topic=6591.0">Windows EXIF metadata on the ExifTool Forum</a></li>
+        <li><a href="http://html5demos.com/file-api">HTML5 File upload and API demo</a> by <a href="https://twitter.com/rem">Remy Sharp</a></li>
+        <li><a href="http://www.exiv2.org/tags.html">Standard Exif Tags</a> reference from exiv2.org</li>
+    </ul>
+</div>
 @section scripts {
     <script src="~/Scripts/h5utils.js"></script>
     <script src="~/scripts/metadata.js"></script>

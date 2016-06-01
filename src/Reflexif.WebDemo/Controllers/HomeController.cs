@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Mime;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -22,6 +23,19 @@ namespace Reflexif.WebDemo.Controllers {
             return View(files);
         }
 
+        public ActionResult CleanUp() {
+            var files = Directory
+                .GetFiles(Server.MapPath("~/App_Data/"), "*.jpg");
+            foreach (var file in files) {
+                try {
+                    System.IO.File.Delete(file);
+                } catch (Exception) {
+                    //ignore
+                }
+            }
+            return (RedirectToAction("Index"));
+        }
+
         public ActionResult Upload(HttpPostedFileBase file) {
             var metadata = new Metadata();
             using (var bitmap = new Bitmap(file.InputStream)) {
@@ -29,7 +43,13 @@ namespace Reflexif.WebDemo.Controllers {
                 metadata.Keywords = bitmap.ReadExifTag(ExifTags.XPKeywords);
                 metadata.Subject = bitmap.ReadExifTag(ExifTags.XPSubject);
                 metadata.Copyright = bitmap.ReadExifTag(ExifTags.Copyright);
-                metadata.Filename = DateTime.Now.Ticks.ToString("X");
+                String filename;
+                try {
+                    filename = Regex.Replace(file.FileName.ToLowerInvariant().Split('.')[0], "[^a-z0-9]+", "-");
+                } catch (Exception) {
+                    filename = Guid.NewGuid().ToString();
+                }
+                metadata.Filename = filename;
                 // var guid = Guid.NewGuid();
                 bitmap.Save(Path.Combine(Server.MapPath("~/App_Data/"), "$" + metadata.Filename + ".jpg"), ImageFormat.Jpeg);
             }
@@ -99,7 +119,7 @@ namespace Reflexif.WebDemo.Controllers {
                         using (var brush = new SolidBrush(Color.White)) {
                             using (var font = new Font("Arial", 8, FontStyle.Regular)) {
                                 g.DrawString(text, font, brush, 1, targetWidth - 14);
-                                if (targetHeight > 300) g.DrawString("www.spotlight.com", font, brush, targetHeight - 98, targetWidth - 14);
+                                if (targetHeight > 300) g.DrawString("reflexif.azurewebsites.net", font, brush, targetHeight - 118, targetWidth - 14);
                             }
                         }
                         g.ResetTransform();
