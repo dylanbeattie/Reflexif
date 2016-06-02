@@ -10,11 +10,11 @@ namespace Reflexif {
     public static class BitmapExtensions {
         private static Encoding GetEncoding(ExifTags tag) {
             switch (tag) {
-                case ExifTags.XPAuthor:
-                case ExifTags.XPTitle:
-                case ExifTags.XPKeywords:
-                case ExifTags.XPComment:
-                case ExifTags.XPSubject:
+                case ExifTags.Image_XPAuthor:
+                case ExifTags.Image_XPTitle:
+                case ExifTags.Image_XPKeywords:
+                case ExifTags.Image_XPComment:
+                case ExifTags.Image_XPSubject:
                     return (Encoding.Unicode);
                 default:
                     return (Encoding.UTF8);

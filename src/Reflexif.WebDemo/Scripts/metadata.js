@@ -47,7 +47,7 @@ function previewfile(file) {
 
         reader.readAsDataURL(file);
     } else {
-        dropzone.innerHTML += '<p>Uploaded ' + file.name + ' ' + (file.size ? (file.size / 1024 | 0) + 'K' : '');
+        dropzone.innerHTML = '<p><strong>' + file.name + '</strong></p><br /><p>' + (file.size ? (file.size / 1024 | 0) + 'K' : '') + "</p>";
         console.log(file);
     }
 }
@@ -65,13 +65,19 @@ function readfiles(files) {
         xhr.open('POST', "/home/upload");
         xhr.onload = function () {
             progress.value = progress.innerHTML = 100;
+            $("#metadata-form").css('visibility', 'visible');
             var data = jQuery.parseJSON(xhr.responseText);
             var form = $("#metadata-form")[0];
             form.title.value = data.Title;
             form.copyright.value = data.Copyright;
             form.filename.value = data.Filename;
-            //form.subject.value = data.Subject;
-            //form.keywords.value = data.Keywords;
+            form.authors.value = data.Authors;
+            form.keywords.value = data.Keywords;
+            if (data.CameraMake && data.CameraModel) {
+                $("#camera-info").html(data.CameraMake + " " + data.CameraModel);
+            } else {
+                $("#camera-info").html('');
+            }
 
         };
 

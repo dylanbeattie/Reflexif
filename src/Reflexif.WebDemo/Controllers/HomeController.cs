@@ -39,10 +39,13 @@ namespace Reflexif.WebDemo.Controllers {
         public ActionResult Upload(HttpPostedFileBase file) {
             var metadata = new Metadata();
             using (var bitmap = new Bitmap(file.InputStream)) {
-                metadata.Title = bitmap.ReadExifTag(ExifTags.XPTitle, ExifTags.ImageDescription);
-                metadata.Keywords = bitmap.ReadExifTag(ExifTags.XPKeywords);
-                metadata.Subject = bitmap.ReadExifTag(ExifTags.XPSubject);
-                metadata.Copyright = bitmap.ReadExifTag(ExifTags.Copyright);
+                metadata.Title = bitmap.ReadExifTag(ExifTags.Image_XPTitle, ExifTags.Image_ImageDescription);
+                metadata.Keywords = bitmap.ReadExifTag(ExifTags.Image_XPKeywords);
+                metadata.Subject = bitmap.ReadExifTag(ExifTags.Image_XPSubject);
+                metadata.Copyright = bitmap.ReadExifTag(ExifTags.Image_Copyright, ExifTags.Image_XPAuthor, ExifTags.Image_Artist);
+                metadata.Authors = bitmap.ReadExifTag(ExifTags.Image_XPAuthor, ExifTags.Image_Artist);
+                metadata.CameraMake = bitmap.ReadExifTag(ExifTags.Image_Make);
+                metadata.CameraModel = bitmap.ReadExifTag(ExifTags.Image_Model);
                 String filename;
                 try {
                     filename = Regex.Replace(file.FileName.ToLowerInvariant().Split('.')[0], "[^a-z0-9]+", "-");
@@ -58,9 +61,9 @@ namespace Reflexif.WebDemo.Controllers {
 
         public ActionResult Update(string filename, string title, string subject, string keywords, string copyright) {
             using (var bitmap = new Bitmap(Path.Combine(Server.MapPath("~/App_Data/"), "$" + filename + ".jpg"))) {
-                bitmap.SetExifTag(ExifTags.XPTitle, title);
-                bitmap.SetExifTag(ExifTags.ImageDescription, title);
-                bitmap.SetExifTag(ExifTags.Copyright, copyright);
+                bitmap.SetExifTag(ExifTags.Image_XPTitle, title);
+                bitmap.SetExifTag(ExifTags.Image_ImageDescription, title);
+                bitmap.SetExifTag(ExifTags.Image_Copyright, copyright);
                 //bitmap.SetExifTag(ExifTags.XPSubject, subject);
                 //bitmap.SetExifTag(ExifTags.XPKeywords, keywords);
                 bitmap.Save(Path.Combine(Server.MapPath("~/App_Data/"), filename + ".jpg"), ImageFormat.Jpeg);
@@ -70,7 +73,7 @@ namespace Reflexif.WebDemo.Controllers {
 
         public ActionResult Render(string filename, int width = 200, int height = 200) {
             using (var bitmap = new Bitmap(Path.Combine(Server.MapPath("~/App_Data/"), filename))) {
-                var text = "© " + DateTime.Now.Year + " " + bitmap.ReadExifTag(ExifTags.Copyright);
+                var text = "© " + DateTime.Now.Year + " " + bitmap.ReadExifTag(ExifTags.Image_Copyright);
                 var result = RenderImage(bitmap, width, height, text);
                 using (var ms = new MemoryStream()) {
                     result.Save(ms, ImageFormat.Jpeg);
