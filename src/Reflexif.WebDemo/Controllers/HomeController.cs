@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Net.Mime;
@@ -37,24 +38,22 @@ namespace Reflexif.WebDemo.Controllers {
         }
 
         public ActionResult Upload(HttpPostedFileBase file) {
-            var metadata = new Metadata();
+            dynamic metadata = new Dictionary<string, object>();
             using (var bitmap = new Bitmap(file.InputStream)) {
-                metadata.Title = bitmap.ReadExifTag(ExifTags.Image_XPTitle, ExifTags.Image_ImageDescription);
-                metadata.Keywords = bitmap.ReadExifTag(ExifTags.Image_XPKeywords);
-                metadata.Subject = bitmap.ReadExifTag(ExifTags.Image_XPSubject);
-                metadata.Copyright = bitmap.ReadExifTag(ExifTags.Image_Copyright, ExifTags.Image_XPAuthor, ExifTags.Image_Artist);
-                metadata.Authors = bitmap.ReadExifTag(ExifTags.Image_XPAuthor, ExifTags.Image_Artist);
-                metadata.CameraMake = bitmap.ReadExifTag(ExifTags.Image_Make);
-                metadata.CameraModel = bitmap.ReadExifTag(ExifTags.Image_Model);
+                foreach (ExifTags tag in Enum.GetValues(typeof(ExifTags))) {
+                    var value = bitmap.ReadExifTag(tag);
+                    if (String.IsNullOrEmpty(value)) continue;
+                    metadata[Enum.GetName(typeof(ExifTags), tag)] = value;
+                }
                 String filename;
                 try {
                     filename = Regex.Replace(file.FileName.ToLowerInvariant().Split('.')[0], "[^a-z0-9]+", "-");
                 } catch (Exception) {
                     filename = Guid.NewGuid().ToString();
                 }
-                metadata.Filename = filename;
+                metadata["filename"] = filename;
                 // var guid = Guid.NewGuid();
-                bitmap.Save(Path.Combine(Server.MapPath("~/App_Data/"), "$" + metadata.Filename + ".jpg"), ImageFormat.Jpeg);
+                bitmap.Save(Path.Combine(Server.MapPath("~/App_Data/"), "$" + filename + ".jpg"), ImageFormat.Jpeg);
             }
             return (Json(metadata));
         }

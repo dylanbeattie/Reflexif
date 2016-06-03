@@ -67,14 +67,23 @@ function readfiles(files) {
             progress.value = progress.innerHTML = 100;
             $("#metadata-form").css('visibility', 'visible');
             var data = jQuery.parseJSON(xhr.responseText);
+            var list = $("#metadata-list");
+            for (var key in data) {
+                if (data[key]) {
+                    list.append($("<dt/>").html(key));
+                    list.append($("<dd/>").html(data[key]));
+                }
+            }
+            alert(data);
+
             var form = $("#metadata-form")[0];
-            form.title.value = data.Title;
-            form.copyright.value = data.Copyright;
-            form.filename.value = data.Filename;
-            form.authors.value = data.Authors;
-            form.keywords.value = data.Keywords;
+            form.title.value = data.Image_ImageDescription || data.Image_Title || data.Image_XPTitle;
+            form.copyright.value = data.Image_Copyright || data.Image_Authors || data.Image_XPAuthors;
+            form.filename.value = data.filename;
+            form.authors.value = data.Image_Authors || data.Image_XPAuthors;
+            form.keywords.value = data.Image_XPKeywords;
             if (data.CameraMake && data.CameraModel) {
-                $("#camera-info").html(data.CameraMake + " " + data.CameraModel);
+                $("#camera-info").html(data.Image_Make + " " + data.Image_Model);
             } else {
                 $("#camera-info").html('');
             }
