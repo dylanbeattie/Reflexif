@@ -16,7 +16,7 @@ namespace Reflexif {
         ///<summary>Long - The number of rows of image data. In JPEG compressed data a JPEG marker is used instead of this tag.</summary>
         Image_ImageLength = 0x0101,
 
-        ///<summary>Short - The number of bits per image component. In this standard each component of the image is 8 bits, so the value for this tag is 8. See also <SamplesPerPixel>. In JPEG compressed data a JPEG marker is used instead of this tag.</summary>
+        ///<summary>Short - The number of bits per image component. In this standard each component of the image is 8 bits, so the value for this tag is 8. See also SamplesPerPixel. In JPEG compressed data a JPEG marker is used instead of this tag.</summary>
         Image_BitsPerSample = 0x0102,
 
         ///<summary>Short - The compression scheme used for the image data. When a primary image is JPEG compressed, this designation is not necessary and is omitted. When thumbnails use JPEG compression, this tag value is set to 6.</summary>
@@ -40,7 +40,7 @@ namespace Reflexif {
         ///<summary>Ascii - The name of the document from which this image was scanned</summary>
         Image_DocumentName = 0x010d,
 
-        ///<summary>Ascii - A character string giving the title of the image. It may be a comment such as "1988 company picnic" or the like. Two-bytes character codes cannot be used. When a 2-bytes code is necessary, the Exif Private tag <UserComment> is to be used.</summary>
+        ///<summary>Ascii - A character string giving the title of the image. It may be a comment such as "1988 company picnic" or the like. Two-bytes character codes cannot be used. When a 2-bytes code is necessary, the Exif Private tag UserComment is to be used.</summary>
         Image_ImageDescription = 0x010e,
 
         ///<summary>Ascii - The manufacturer of the recording equipment. This is the manufacturer of the DSC, scanner, video digitizer or other equipment that generated the image. When the field is left blank, it is treated as unknown.</summary>
@@ -49,7 +49,7 @@ namespace Reflexif {
         ///<summary>Ascii - The model name or model number of the equipment. This is the model name or number of the DSC, scanner, video digitizer or other equipment that generated the image. When the field is left blank, it is treated as unknown.</summary>
         Image_Model = 0x0110,
 
-        ///<summary>Long - For each strip, the byte offset of that strip. It is recommended that this be selected so the number of strip bytes does not exceed 64 Kbytes. With JPEG compressed data this designation is not needed and is omitted. See also <RowsPerStrip> and <StripByteCounts>.</summary>
+        ///<summary>Long - For each strip, the byte offset of that strip. It is recommended that this be selected so the number of strip bytes does not exceed 64 Kbytes. With JPEG compressed data this designation is not needed and is omitted. See also RowsPerStrip and StripByteCounts.</summary>
         Image_StripOffsets = 0x0111,
 
         ///<summary>Short - The image orientation viewed in terms of rows and columns.</summary>
@@ -64,10 +64,10 @@ namespace Reflexif {
         ///<summary>Long - The total number of bytes in each strip. With JPEG compressed data this designation is not needed and is omitted.</summary>
         Image_StripByteCounts = 0x0117,
 
-        ///<summary>Rational - The number of pixels per <ResolutionUnit> in the <ImageWidth> direction. When the image resolution is unknown, 72 [dpi] is designated.</summary>
+        ///<summary>Rational - The number of pixels per ResolutionUnit> in the ImageWidth direction. When the image resolution is unknown, 72 [dpi] is designated.</summary>
         Image_XResolution = 0x011a,
 
-        ///<summary>Rational - The number of pixels per <ResolutionUnit> in the <ImageLength> direction. The same value as <XResolution> is designated.</summary>
+        ///<summary>Rational - The number of pixels per ResolutionUnit in the ImageLength direction. The same value as XResolution is designated.</summary>
         Image_YResolution = 0x011b,
 
         ///<summary>Short - Indicates whether pixel components are recorded in a chunky or planar format. In JPEG compressed files a JPEG marker is used instead of this tag. If this field does not exist, the TIFF default of 1 (chunky) is assumed.</summary>
@@ -85,7 +85,7 @@ namespace Reflexif {
         ///<summary>Long - T.6-encoding options.</summary>
         Image_T6Options = 0x0125,
 
-        ///<summary>Short - The unit for measuring <XResolution> and <YResolution>. The same unit is used for both <XResolution> and <YResolution>. If the image resolution is unknown, 2 (inches) is designated.</summary>
+        ///<summary>Short - The unit for measuring XResolution and YResolution. The same unit is used for both XResolution and YResolution. If the image resolution is unknown, 2 (inches) is designated.</summary>
         Image_ResolutionUnit = 0x0128,
 
         ///<summary>Short - The page number of the page from which this image was scanned.</summary>
@@ -703,16 +703,16 @@ namespace Reflexif {
         ///<summary>Undefined - A tag for manufacturers of Exif writers to record any desired information. The contents are up to the manufacturer.</summary>
         Photo_MakerNote = 0x927c,
 
-        ///<summary>Comment - A tag for Exif users to write keywords or comments on the image besides those in <ImageDescription>, and without the character code limitations of the <ImageDescription> tag.</summary>
+        ///<summary>Comment - A tag for Exif users to write keywords or comments on the image besides those in ImageDescription, and without the character code limitations of the <ImageDescription> tag.</summary>
         Photo_UserComment = 0x9286,
 
-        ///<summary>Ascii - A tag used to record fractions of seconds for the <DateTime> tag.</summary>
+        ///<summary>Ascii - A tag used to record fractions of seconds for the DateTime tag.</summary>
         Photo_SubSecTime = 0x9290,
 
-        ///<summary>Ascii - A tag used to record fractions of seconds for the <DateTimeOriginal> tag.</summary>
+        ///<summary>Ascii - A tag used to record fractions of seconds for the DateTimeOriginal tag.</summary>
         Photo_SubSecTimeOriginal = 0x9291,
 
-        ///<summary>Ascii - A tag used to record fractions of seconds for the <DateTimeDigitized> tag.</summary>
+        ///<summary>Ascii - A tag used to record fractions of seconds for the DateTimeDigitized tag.</summary>
         Photo_SubSecTimeDigitized = 0x9292,
 
         ///<summary>Undefined - The FlashPix format version supported by a FPXR file.</summary>
@@ -739,13 +739,13 @@ namespace Reflexif {
         ///<summary>Undefined - This tag records the camera or input device spatial frequency table and SFR values in the direction of image width, image height, and diagonal direction, as specified in ISO 12233.</summary>
         Photo_SpatialFrequencyResponse = 0xa20c,
 
-        ///<summary>Rational - Indicates the number of pixels in the image width (X) direction per <FocalPlaneResolutionUnit> on the camera focal plane.</summary>
+        ///<summary>Rational - Indicates the number of pixels in the image width (X) direction per FocalPlaneResolutionUnit on the camera focal plane.</summary>
         Photo_FocalPlaneXResolution = 0xa20e,
 
-        ///<summary>Rational - Indicates the number of pixels in the image height (V) direction per <FocalPlaneResolutionUnit> on the camera focal plane.</summary>
+        ///<summary>Rational - Indicates the number of pixels in the image height (V) direction per FocalPlaneResolutionUnit on the camera focal plane.</summary>
         Photo_FocalPlaneYResolution = 0xa20f,
 
-        ///<summary>Short - Indicates the unit for measuring <FocalPlaneXResolution> and <FocalPlaneYResolution>. This value is the same as the <ResolutionUnit>.</summary>
+        ///<summary>Short - Indicates the unit for measuring FocalPlaneXResolution and FocalPlaneYResolution. This value is the same as the ResolutionUnit.</summary>
         Photo_FocalPlaneResolutionUnit = 0xa210,
 
         ///<summary>Short - Indicates the location of the main subject in the scene. The value of this tag represents the pixel at the center of the main subject relative to the left edge, prior to rotation processing as per the <Rotation> tag. The first value indicates the X column number and second indicates the Y row number.</summary>
@@ -838,7 +838,7 @@ namespace Reflexif {
         ///<summary>Long - Image height</summary>
         Iop_RelatedImageLength = 0x1002,
 
-        ///<summary>Byte - Indicates the version of <GPSInfoIFD>. The version is given as 2.0.0.0. This tag is mandatory when <GPSInfo> tag is present. (Note: The <GPSVersionID> tag is given in bytes, unlike the <ExifVersion> tag. When the version is 2.0.0.0, the tag value is 02000000.H).</summary>
+        ///<summary>Byte - Indicates the version of GPSInfoIF>. The version is given as 2.0.0.0. This tag is mandatory when GPSInfo tag is present. (Note: The GPSVersionID tag is given in bytes, unlike the ExifVersion tag. When the version is 2.0.0.0, the tag value is 02000000.H).</summary>
         GPSInfo_GPSVersionID = 0x0000,
 
         ///<summary>Ascii - Indicates whether the latitude is north or south latitude. The ASCII value 'N' indicates north latitude, and 'S' is south latitude.</summary>
@@ -859,7 +859,7 @@ namespace Reflexif {
         ///<summary>Rational - Indicates the altitude based on the reference in GPSAltitudeRef. Altitude is expressed as one RATIONAL value. The reference unit is meters.</summary>
         GPSInfo_GPSAltitude = 0x0006,
 
-        ///<summary>Rational - Indicates the time as UTC (Coordinated Universal Time). <TimeStamp> is expressed as three RATIONAL values giving the hour, minute, and second (atomic clock).</summary>
+        ///<summary>Rational - Indicates the time as UTC (Coordinated Universal Time). TimeStamp is expressed as three RATIONAL values giving the hour, minute, and second (atomic clock).</summary>
         GPSInfo_GPSTimeStamp = 0x0007,
 
         ///<summary>Ascii - Indicates the GPS satellites used for measurements. This tag can be used to describe the number of satellites, their ID number, angle of elevation, azimuth, SNR and other information in ASCII notation. The format is not specified. If the GPS receiver is incapable of taking measurements, value of the tag is set to NULL.</summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq.Expressions;
@@ -20,6 +21,21 @@ namespace Reflexif {
                     return (Encoding.UTF8);
             }
         }
+
+        private static byte[] ToBytes(ExifTags tag, string value) {
+            var encoding = GetEncoding(tag);
+            switch (tag) {
+                case ExifTags.Image_XPAuthor:
+                case ExifTags.Image_XPTitle:
+                case ExifTags.Image_XPKeywords:
+                case ExifTags.Image_XPComment:
+                case ExifTags.Image_XPSubject:
+                    return (encoding.GetBytes(value + "\0"));
+                default:
+                    return (encoding.GetBytes(value + "\0"));
+            }
+        }
+
         public static string ReadExifTag(this Bitmap bitmap, params ExifTags[] tags) {
             foreach (var tag in tags) {
                 try {
@@ -31,6 +47,7 @@ namespace Reflexif {
             }
             return (null);
         }
+
         public static void SetExifTag(this Bitmap bitmap, ExifTags tag, string value) {
             var t = typeof(PropertyItem);
             var types = new Type[0];
@@ -38,22 +55,11 @@ namespace Reflexif {
             var ci = t.GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic, null, types, null);
             var pi = (PropertyItem)ci.Invoke(values);
             pi.Id = (int)tag;
-            pi.Type = 2;
-            var encoding = GetEncoding(tag);
-            var bytes = encoding.GetBytes(value + "\0");
+            pi.Type = TagTypes.FromTag(tag);
+            var bytes = ToBytes(tag, value);
             pi.Value = bytes;
             pi.Len = bytes.Length - 1;
             bitmap.SetPropertyItem(pi);
         }
-        //public static void SetCopyrightExifData(this Bitmap bitmap, string copyright) {
-        //    SetExifTag(bitmap, ExifTags.Copyright, copyright);
-        //}
-
-        //public static void SetArtistExifData(this Bitmap bitmap, string artist) {
-        //    SetExifTag(bitmap, ExifTags.Artist, artist);
-        //}
-        //public static void SetTitleExifData(this Bitmap bitmap, string title) {
-        //    SetExifTag(bitmap, ExifTags.Title, title);
-        //}
     }
 }

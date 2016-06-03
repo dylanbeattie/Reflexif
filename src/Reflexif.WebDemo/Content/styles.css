@@ -22,3 +22,8 @@ div.container {
 hr {
     border: 1px solid #333 !important;
 }
+
+footer {
+    font-size: 80%;
+    text-align: center;
+}
